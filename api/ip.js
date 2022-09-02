@@ -10,8 +10,8 @@ IpRoutes.get('/ip', (req, res, next) => {
         status: true,
         message: 'OK',
         data: {
-            ip_address: req.socket.remoteAddress,
-            public_ip: '',
+            ip_address: req.ip,
+            public_ip: req.socket.remoteAddress,
             date: new Date().toString()
         }
     })
