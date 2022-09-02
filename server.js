@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('node:path');
 
 const { IpRoutes } = require('./api/ip');
 
@@ -17,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.get('/', (req, res, next) => {
-    return res.sendFile(__dirname + '\\web\\index.html');
+    return res.sendFile(path.join(__dirname, '/web/index.html'));
 })
 
 app.use('/api', IpRoutes)
