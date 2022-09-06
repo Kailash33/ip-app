@@ -14,19 +14,17 @@ IpRoutes.get('/client-info', (req, res) => {
     return res.status(200).jsonp({
         status: true,
         message: 'OK',
-        data: detector.detect(req.headers['user-agent'])
+        data: { ...detector.detect(req.headers['user-agent']), ip: { client_ip: getIP(req) } }
     })
 })
 
 IpRoutes.get('/ip', (req, res, next) => {
 
-    const clientip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
     return res.status(200).json({
         status: true,
         message: 'OK',
         data: {
-            ip_address: clientip,
+            ip_address: getIP(req),
             public_ip: req.socket.remoteAddress,
             date: new Date().toString(),
             client_ip: {
@@ -36,6 +34,8 @@ IpRoutes.get('/ip', (req, res, next) => {
         }
     })
 });
+
+const getIP = (req) => req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
 module.exports = {
     IpRoutes
